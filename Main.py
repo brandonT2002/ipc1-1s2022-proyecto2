@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from flask import Flask, jsonify, request
 from Controlador import Controlador
 
@@ -25,6 +26,12 @@ def createBook():
         data['no_bookshelf_row']
         )
 
+@app.route('/book/:<int:isbn>')
+def getBook(isbn):
+    data = request.json
+    return ctrl.getBook(
+        isbn,
+        )
 
 if __name__ == '__main__':
     app.run(debug = True, port = 4000)
