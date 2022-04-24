@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from Controlador import Controlador
 
 app = Flask(__name__)
-
+CORS(app)
 ctrl = Controlador()
 
 @app.route('/')

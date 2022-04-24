@@ -1,8 +1,6 @@
-from itsdangerous import json
 from Constructores import Libro,Prestamista, Prestamo
 from datetime import datetime
 import json
-import sys
 import random
 class Controlador:
     def __init__(self):
