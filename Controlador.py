@@ -67,8 +67,6 @@ class Controlador:
 
     def searchBooks(self,dict):
         self.search_books = [book for book in self.libros]
-        if not self.verifyDict(dict,'title') and not self.verifyDict(dict,'year_from') and not self.verifyDict(dict,'year_to') and not self.verifyDict(dict,'author'):
-            return json.dumps([book.__dict__ for book in self.search_books])
         if self.verifyDict(dict,'title'):
             self.search_books = [book for book in self.search_books if book.title == dict['title']]
         if self.verifyDict(dict,'year_from'):
@@ -77,7 +75,7 @@ class Controlador:
             self.search_books = [book for book in self.search_books if book.year <= dict['year_to']]
         if self.verifyDict(dict,'author'):
             self.search_books = [book for book in self.search_books if book.author >= dict['author']]
-        return json.dumps([book.__dict__ for book in self.search_books])
+        return json.dumps([book.__dict__ for book in self.search_books]),200
 
     # Prestamistas
 
