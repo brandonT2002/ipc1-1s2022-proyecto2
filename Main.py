@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from flask import Flask, jsonify, request
 from Controlador import Controlador
 
@@ -18,20 +17,59 @@ def createBook():
         data['isbn'],
         data['author'],
         data['title'],
-        data['edition'],
         data['year'],
         data['no_copies'],
-        data['no_available_copies'],
-        data['no_bookshelf'],
-        data['no_bookshelf_row']
+        data['no_available_copies']
         )
 
-@app.route('/book/:<int:isbn>')
-def getBook(isbn):
+@app.route('/book', methods = ['PUT'])
+def updateBook():
     data = request.json
-    return ctrl.getBook(
-        isbn,
+    return ctrl.updateBook(
+        data['isbn'],
+        data['author'],
+        data['title'],
+        data['year']
+    )
+
+@app.route('/book', methods = ['GET'])
+def searchBooks():
+    data = request.json
+    return ctrl.searchBooks(
+        data
+    )
+
+@app.route('/person', methods = ['POST'])
+def createCustomer():
+    data = request.json
+    return ctrl.createCustomer(
+        data['cui'],
+        data['last_name'],
+        data['first_name']
         )
+
+@app.route('/person/:cui', methods = ['GET'])
+def getCustomer():
+    data = request.json
+    return ctrl.getCustomer(
+        data['cui']
+        )
+
+@app.route('/borrow', methods = ['POST'])
+def newLoan():
+    data = request.json
+    return ctrl.newLoan(
+        data['cui'],
+        data['isbn']
+    )
+
+@app.route('/borrow/:uuid', methods = ['PATCH'])
+def returnBook():
+    data = request.json
+    return ctrl.returnBook(
+        data['uuid']
+    )
+
 
 if __name__ == '__main__':
     app.run(debug = True, port = 4000)
