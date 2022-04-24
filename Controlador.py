@@ -8,19 +8,17 @@ class Controlador:
         self.prestamistas = []
         self.prestamos = []
 
-        #self.createBook(1,'Brandon','Java',1999,2,2)
-        #self.createBook(2,'Brandon','Java',2000,2,2)
-        #self.createBook(3,'Brandon','Java',2001,2,2)
-        #self.createBook(4,'Brandon','Python',2000,3,3)
-        #self.createBook(5,'Brandon','Python',2002,3,3)
-        #self.createBook(6,'Brandon','C#',2005,3,3)
-        #self.createBook(7,'Brandon','C#',2006,3,3)
-        #self.createBook(8,'Brandon','C#',2008,3,3)
-        #self.createBook(9,'Jefferson','Go',2015,5,5)
-        #self.createBook(10,'Andy','Go',2016,5,5)
-        #self.createBook(11,'Brandon','Unity',2019,5,5)
-        #self.createBook(12,'Brandon','Unreal Engine',2022,5,5)
-        #self.createCustomer('1','Tejaxun','Jefferson')
+        #self.createBook(1,'Isaac Asimov','Los propios dioses',1972,5,5)
+        #self.createBook(2,'Isaac Asimov','El fin de la Eternidad',1955,5,4)
+        #self.createBook(3,'Lisa Randall','Materia oscura y dinosaurios',2016,2,2)
+        #self.createBook(4,'Isaac Asimov','Trilogia de la fundacion',1951,3,3)
+        #self.createBook(5,'Kip Thorne','Agujeros negros y tiempo curvo',2002,3,3)
+        #self.createBook(6,'Stephen Hawking','Historia del tiempo',2013,3,3)
+        #self.createBook(7,'Leon Lederman','La particula divina',2013,3,3)
+        #self.createBook(8,'Bruce','Haz un clic aqui para matarlos a todos',2019,3,3)
+        #self.createBook(9,'Lisa Randall','Universos ocultos',2011,5,5)
+        #self.createBook(10,'Leon Lederman','Symmetry and the beautiful universe',2004,5,5)
+        #self.createCustomer('1','Curie','Marie')
         #self.createCustomer('2','Gates','Bill')
         #self.createCustomer('3','Jobs','Steve')
         #self.createCustomer('4','>uckerberg','Mark')
@@ -68,13 +66,13 @@ class Controlador:
     def searchBooks(self,dict):
         self.search_books = [book for book in self.libros]
         if self.verifyDict(dict,'title'):
-            self.search_books = [book for book in self.search_books if book.title == dict['title']]
+            self.search_books = [book for book in self.search_books if book.title.upper() == dict['title'].upper()]
         if self.verifyDict(dict,'year_from'):
             self.search_books = [book for book in self.search_books if book.year >= dict['year_from']]
         if self.verifyDict(dict,'year_to'):
             self.search_books = [book for book in self.search_books if book.year <= dict['year_to']]
         if self.verifyDict(dict,'author'):
-            self.search_books = [book for book in self.search_books if book.author >= dict['author']]
+            self.search_books = [book for book in self.search_books if book.author.upper() == dict['author'].upper()]
         return json.dumps([book.__dict__ for book in self.search_books]),200
 
     # Prestamistas
