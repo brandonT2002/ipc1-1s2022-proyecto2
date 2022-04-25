@@ -1,5 +1,6 @@
 from Constructores import Libro,Prestamista, Prestamo
 from datetime import datetime
+from flask import jsonify
 import json
 import random
 class Controlador:
@@ -73,7 +74,7 @@ class Controlador:
             self.search_books = [book for book in self.search_books if book.year <= dict['year_to']]
         if self.verifyDict(dict,'author'):
             self.search_books = [book for book in self.search_books if book.author.upper() == dict['author'].upper()]
-        return json.dumps([book.__dict__ for book in self.search_books]),200
+        return jsonify([book.__dict__ for book in self.search_books]),200
 
     # Prestamistas
 
@@ -89,7 +90,7 @@ class Controlador:
         if not customer:
             return '{"msg":"Prestamista no encontrado"}',400
         record = self.getRecord(cui)
-        return json.dumps({"cui":customer.cui,"first_name":customer.first_name,"last_name":customer.last_name,"record":record}),200
+        return jsonify({"cui":customer.cui,"first_name":customer.first_name,"last_name":customer.last_name,"record":record}),200
 
     def newLoan(self,cui,isbn):
         customer = self.verifyC(cui)
