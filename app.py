@@ -43,6 +43,10 @@ def searchBooks():
         data
     )
 
+@app.route('/record/<cui>', methods = ['GET'])
+def getRecord(cui):
+    return ctrl.getRecord(cui)
+
 @app.route('/person', methods = ['POST'])
 def createCustomer():
     data = request.json
