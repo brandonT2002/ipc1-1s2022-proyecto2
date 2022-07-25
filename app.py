@@ -8,7 +8,7 @@ ctrl = Controlador()
 
 @app.route('/')
 def ping():
-    return jsonify({'message':'pong!'})
+    return jsonify({'message':'API Biblioteca'})
 
 
 @app.route('/book', methods = ['POST'])
