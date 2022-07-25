@@ -45,7 +45,7 @@ def searchBooks():
 
 @app.route('/record/<cui>', methods = ['GET'])
 def getRecord(cui):
-    return ctrl.getRecord(cui)
+    return ctrl.getRecordCui(cui)
 
 @app.route('/person', methods = ['POST'])
 def createCustomer():

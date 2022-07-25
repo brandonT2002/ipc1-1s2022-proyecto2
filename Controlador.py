@@ -11,19 +11,29 @@ class Controlador:
         self.prestamos = []
 
         self.createBook(1,'Isaac Asimov','Los propios dioses',1972,5,5)
-        self.createBook(2,'Isaac Asimov','El fin de la Eternidad',1955,5,0)
-        #self.createBook(3,'Lisa Randall','Materia oscura y dinosaurios',2016,2,2)
-        #self.createBook(4,'Isaac Asimov','Trilogia de la fundacion',1951,3,3)
-        #self.createBook(5,'Kip Thorne','Agujeros negros y tiempo curvo',2002,3,3)
-        #self.createBook(6,'Stephen Hawking','Historia del tiempo',2013,3,3)
-        #self.createBook(7,'Leon Lederman','La particula divina',2013,3,3)
-        #self.createBook(8,'Bruce','Haz un clic aqui para matarlos a todos',2019,3,3)
-        #self.createBook(9,'Lisa Randall','Universos ocultos',2011,5,5)
-        #self.createBook(10,'Leon Lederman','Symmetry and the beautiful universe',2004,5,5)
+        self.createBook(2,'Isaac Asimov','El fin de la Eternidad',1955,5,4)
+        self.createBook(3,'Lisa Randall','Materia oscura y dinosaurios',2016,2,2)
+        self.createBook(4,'Isaac Asimov','Trilogia de la fundacion',1951,3,3)
+        self.createBook(5,'Kip Thorne','Agujeros negros y tiempo curvo',2002,3,3)
+        self.createBook(6,'Stephen Hawking','Historia del tiempo',2013,3,3)
+        self.createBook(7,'Leon Lederman','La particula divina',2013,3,3)
+        self.createBook(8,'Bruce','Haz un clic aqui para matarlos a todos',2019,3,3)
+        self.createBook(9,'Lisa Randall','Universos ocultos',2011,5,5)
+        self.createBook(10,'Leon Lederman','Symmetry and the beautiful universe',2004,5,5)
+        self.createBook(11,'Isaac Asimov','Los propios dioses',1972,5,5)
+        self.createBook(12,'Isaac Asimov','El fin de la Eternidad',1955,5,4)
+        self.createBook(13,'Lisa Randall','Materia oscura y dinosaurios',2016,2,2)
+        self.createBook(14,'Isaac Asimov','Trilogia de la fundacion',1951,3,3)
+        self.createBook(15,'Kip Thorne','Agujeros negros y tiempo curvo',2002,3,3)
+        self.createBook(16,'Stephen Hawking','Historia del tiempo',2013,3,3)
+        self.createBook(17,'Leon Lederman','La particula divina',2013,3,3)
+        self.createBook(18,'Bruce','Haz un clic aqui para matarlos a todos',2019,3,3)
+        self.createBook(19,'Lisa Randall','Universos ocultos',2011,5,5)
+        self.createBook(20,'Leon Lederman','Symmetry and the beautiful universe',2004,5,5)
         self.createCustomer('1','Curie','Marie')
         self.createCustomer('2','Gates','Bill')
-        #self.createCustomer('3','Jobs','Steve')
-        #self.createCustomer('4','Zuckerberg','Mark')
+        self.createCustomer('3','Jobs','Steve')
+        self.createCustomer('4','Zuckerberg','Mark')
         #self.newLoan('1',1)
         #self.returnBook(self.prestamos[0].uuid)
         #self.newLoan('1',2)
@@ -147,6 +157,9 @@ class Controlador:
                 self.libros[i].no_available_copies += n
                 return True
         return False
+
+    def getRecordCui(self,cui):
+        return json.dumps({"record": self.getRecord(cui)}),200
 
     def getRecord(self,cui):
         record = []
