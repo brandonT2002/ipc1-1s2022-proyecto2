@@ -1,15 +1,17 @@
+from operator import index
 from Constructores import Libro,Prestamista, Prestamo
 from datetime import datetime
 import json
 import random
 class Controlador:
     def __init__(self):
+        self.index = 0
         self.libros = []
         self.prestamistas = []
         self.prestamos = []
 
-        #self.createBook(1,'Isaac Asimov','Los propios dioses',1972,5,5)
-        #self.createBook(2,'Isaac Asimov','El fin de la Eternidad',1955,5,4)
+        self.createBook(1,'Isaac Asimov','Los propios dioses',1972,5,5)
+        self.createBook(2,'Isaac Asimov','El fin de la Eternidad',1955,5,0)
         #self.createBook(3,'Lisa Randall','Materia oscura y dinosaurios',2016,2,2)
         #self.createBook(4,'Isaac Asimov','Trilogia de la fundacion',1951,3,3)
         #self.createBook(5,'Kip Thorne','Agujeros negros y tiempo curvo',2002,3,3)
@@ -18,10 +20,10 @@ class Controlador:
         #self.createBook(8,'Bruce','Haz un clic aqui para matarlos a todos',2019,3,3)
         #self.createBook(9,'Lisa Randall','Universos ocultos',2011,5,5)
         #self.createBook(10,'Leon Lederman','Symmetry and the beautiful universe',2004,5,5)
-        #self.createCustomer('1','Curie','Marie')
-        #self.createCustomer('2','Gates','Bill')
+        self.createCustomer('1','Curie','Marie')
+        self.createCustomer('2','Gates','Bill')
         #self.createCustomer('3','Jobs','Steve')
-        #self.createCustomer('4','>uckerberg','Mark')
+        #self.createCustomer('4','Zuckerberg','Mark')
         #self.newLoan('1',1)
         #self.returnBook(self.prestamos[0].uuid)
         #self.newLoan('1',2)
@@ -50,7 +52,7 @@ class Controlador:
     # Books
     def createBook(self,isbn,author,title,year,noCop,noCopDisp):
         if self.verify(isbn):
-            return '{"msg":"El libro ya existe"}',400
+            return '{"msg":"El libro ya existe"}',200
         self.libros.append(Libro(isbn,author,title,year,noCop,noCopDisp))
         return '{"msg":"Libro creado exitosamente"}',200
 
@@ -61,7 +63,7 @@ class Controlador:
             book.title = title
             book.year = year
             return '{"msg":"Libro actualizado"}',200
-        return '{"msg":"Libro no encontrado"}',400
+        return '{"msg":"Libro no encontrado"}',200
 
     def searchBooks(self,dict):
         self.search_books = [book for book in self.libros]
@@ -75,21 +77,37 @@ class Controlador:
             self.search_books = [book for book in self.search_books if book.author.upper() == dict['author'].upper()]
         return json.dumps([book.__dict__ for book in self.search_books]),200
 
+    def deleteBooks(self,isbn):
+        book = self.verify(isbn)
+        #print(book.isbn)
+        if book:
+            self.libros.pop(self.index - 1)
+            return '{"msg":"Libro eliminado exitosamente"}',200
+        return '{"msg":"El libro no existe"}',200
+
     # Prestamistas
 
     def createCustomer(self,cui,last_name,first_name):
         customer = self.verifyC(cui)
         if customer:
-            return '{"smg":"El prestamista ya existe"}',400
+            return '{"msg":"El prestamista ya existe"}',400
         self.prestamistas.append(Prestamista(cui,last_name,first_name))
         return '{"msg":"Prestamista creado exitosamente"}',200
 
-    def getCustomer(self,cui):
+    def getCustomer(self):
+        self.search_customers = [customer for customer in self.prestamistas]
+        temporal = []
+        for i in self.search_customers:
+            tmpDict = {'cui':i.cui,'first_name':i.first_name,'last_name':i.last_name,'record':self.getRecord(i.cui)}
+            temporal.append(tmpDict)
+        return json.dumps(temporal),200
+
+    def deleteCustomer(self,cui):
         customer = self.verifyC(cui)
-        if not customer:
-            return '{"msg":"Prestamista no encontrado"}',400
-        record = self.getRecord(cui)
-        return json.dumps({"cui":customer.cui,"first_name":customer.first_name,"last_name":customer.last_name,"record":record}),200
+        if customer:
+            self.prestamistas.pop(self.index - 1)
+            return '{"msg":"Prestamista eliminado exitosamente"}',200
+        return '{"msg":"El prestamista no existe"}',200
 
     def newLoan(self,cui,isbn):
         customer = self.verifyC(cui)
@@ -108,7 +126,7 @@ class Controlador:
                         else:
                             return '{"msg":"No hay libros disponibles"}',200
             return '{"msg":"Prestamo pendiente"}'
-        return '{"smg":"No se ha podido realizar el prestamo"}',400
+        return '{"msg":"No se ha podido realizar el prestamo"}',200
 
     def returnBook(self,uuid):
         id = self.verifyUuid(uuid)
@@ -147,7 +165,9 @@ class Controlador:
     def verify(self,isbn) -> Libro:
         for i in self.libros:
             if i.isbn == isbn:
+                self.index = 0
                 return i
+            self.index += 1
         return None
 
     def verifyTitle(self,title) -> Libro:
@@ -159,7 +179,9 @@ class Controlador:
     def verifyC(self,cui) -> Prestamista:
         for i in self.prestamistas:
             if i.cui == cui:
+                self.index = 0
                 return i
+            self.index += 1
         return None
 
     def verifyUuid(self,uuid) -> Prestamo:

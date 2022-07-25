@@ -35,7 +35,10 @@ def updateBook():
 
 @app.route('/book', methods = ['GET'])
 def searchBooks():
-    data = request.json
+    try:
+        data = request.json
+    except:
+        data = '{}'
     return ctrl.searchBooks(
         data
     )
@@ -43,18 +46,16 @@ def searchBooks():
 @app.route('/person', methods = ['POST'])
 def createCustomer():
     data = request.json
+    print(data)
     return ctrl.createCustomer(
         data['cui'],
         data['last_name'],
         data['first_name']
         )
 
-@app.route('/person/:cui', methods = ['GET'])
+@app.route('/person', methods = ['GET'])
 def getCustomer():
-    data = request.json
-    return ctrl.getCustomer(
-        data['cui']
-        )
+    return ctrl.getCustomer()
 
 @app.route('/borrow', methods = ['POST'])
 def newLoan():
@@ -71,6 +72,19 @@ def returnBook():
         data['uuid']
     )
 
+@app.route('/book', methods = ['DELETE'])
+def deleteBooks():
+    data = request.json
+    return ctrl.deleteBooks(
+        data['isbn']
+        )
+
+@app.route('/person', methods = ['DELETE'])
+def deleteCustomer():
+    data = request.json
+    return ctrl.deleteCustomer(
+        data['cui']
+    )
 
 if __name__ == '__main__':
     app.run(debug = True, port = 4000)
